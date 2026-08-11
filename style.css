@@ -90,6 +90,144 @@ h1 em, h2 em { display: block; font-weight: 500; font-style: italic; color: inhe
 .mini-card small { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; }
 .mini-card strong { margin-top: 3px; font-size: 13px; line-height: 1.3; }
 
+
+.history {
+    position: relative;
+    background: #f6f0e8;
+    overflow: hidden;
+}
+
+.history::before {
+    content: "";
+    position: absolute;
+
+    width: 800px;
+    height: 800px;
+
+    left: -300px;
+    bottom: -250px;
+
+    background:
+        url("img/ornamento-igreja.png")
+        center / contain no-repeat;
+
+    opacity: .05;
+    pointer-events: none;
+}
+
+.history-header {
+    max-width: 850px;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.history-header h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(52px, 6vw, 82px);
+    line-height: .95;
+    color: #34261b;
+}
+
+.history-header h2 em {
+    color: #9b7c67;
+}
+
+.history-subtitle {
+    max-width: 720px;
+    margin: 25px auto 0;
+
+    color: #766f68;
+    line-height: 1.8;
+}
+
+.history-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.history-card {
+    position: relative;
+
+    min-height: 390px;
+    padding: 34px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    background: #ebe0d3;
+
+    border-radius: 24px;
+    border: 1px solid rgba(61, 44, 31, .1);
+}
+
+.history-number {
+    position: absolute;
+    top: 25px;
+    right: 28px;
+
+    font-family: "Cormorant Garamond", serif;
+    font-size: 58px;
+
+    color: rgba(61,44,31,.12);
+}
+
+.history-card small {
+    margin-bottom: 10px;
+
+    text-transform: uppercase;
+    letter-spacing: .13em;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    color: #9b7c67;
+}
+
+.history-card h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 37px;
+    line-height: 1;
+
+    color: #34261b;
+}
+
+.history-card p {
+    margin-top: 18px;
+
+    font-size: 13px;
+    line-height: 1.75;
+
+    color: #766f68;
+}
+
+.history-quote {
+    margin-top: 65px;
+    text-align: center;
+}
+
+.history-quote > span {
+    color: #c2a46f;
+}
+
+.history-quote blockquote {
+    max-width: 800px;
+
+    margin: 18px auto 30px;
+
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.1;
+    font-style: italic;
+
+    color: #493528;
+}
+
+.btn-dark {
+    background: #2b2118;
+    color: #fff;
+}
 .progress-section { position: relative; z-index: 4; margin-top: -48px; }
 .progress-card { padding: 30px 34px; display: grid; grid-template-columns: .75fr 1.25fr; gap: 50px; align-items: center; border-radius: var(--radius-xl); background: var(--ivory); box-shadow: var(--shadow); border: 1px solid var(--border); }
 .progress-card h2 { font-size: 36px; line-height: 1; }
@@ -227,4 +365,17 @@ h1 em, h2 em { display: block; font-weight: 500; font-style: italic; color: inhe
   .footer-right { text-align: left; }
   .social-links { justify-content: flex-start; }
   .ornament-hero-right, .scapular .ornament-section-right, .donation .ornament-donation-right { width: 180px; opacity: .08; }
+}
+
+
+@media (max-width: 800px) {
+
+    .history-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .history-card {
+        min-height: 300px;
+    }
+
 }
