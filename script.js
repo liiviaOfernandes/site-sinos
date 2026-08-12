@@ -2,10 +2,10 @@ const CONFIG = {
   whatsapp: "553438422540",
 
   // Meta total da campanha
-  goal: 301460
+  goal: 347966.54,
 
   // Quanto já foi arrecadado
-  raised: 180000
+  raised: 222500.00
 };
 
 document.getElementById("year").textContent = new Date().getFullYear();
