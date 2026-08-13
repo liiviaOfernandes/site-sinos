@@ -805,65 +805,573 @@ h1 em, h2 em { display: block; font-weight: 500; font-style: italic; color: inhe
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
-@media (max-width: 980px) {
-  .menu-button { display: block; position: relative; z-index: 120; }
-  .menu { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; background: rgba(33,23,15,.98); transform: translateX(100%); transition: .3s ease; font-size: 18px; }
-  body.menu-open .menu { transform: translateX(0); }
-  body.menu-open .menu-button span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  body.menu-open .menu-button span:nth-child(2) { opacity: 0; }
-  body.menu-open .menu-button span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+/* =====================================================
+   RESPONSIVO GERAL
+   Navbar mobile corrigida
+===================================================== */
 
-  .hero-grid, .split, .donation-grid, .progress-card { grid-template-columns: 1fr; }
-  .hero-grid { gap: 50px; }
-  .hero { min-height: auto; }
-  .hero-card { width: min(620px, 100%); margin-inline: auto; }
-  .mini-card { left: 20px; }
-  .progress-card { gap: 22px; }
-  .split { gap: 55px; }
-  .split.reverse > :first-child, .split.reverse > :last-child { order: initial; }
-  .steps-grid { grid-template-columns: 1fr; }
-  .step-card { min-height: 230px; }
-  .donation-grid { gap: 50px; }
-  .ornament-hero-left, .campaign .ornament-section-left, .donation .ornament-donation-left { width: 86vw; left: -120px; }
-  .ornament-hero-right, .scapular .ornament-section-right, .donation .ornament-donation-right { width: 220px; }
+@media (max-width: 980px) {
+
+  /* ---------------------------------------------------
+     HEADER / NAVBAR
+  --------------------------------------------------- */
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    z-index: 1000;
+
+    background: rgba(33, 23, 15, .97);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+
+    /* Evita o menu fixed ser deslocado em alguns navegadores */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .header.scrolled {
+    background: rgba(33, 23, 15, .98);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .nav {
+    position: relative;
+
+    width: min(var(--container), calc(100% - 28px));
+    height: 72px;
+
+    margin-inline: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+  }
+
+  .brand {
+    position: relative;
+    z-index: 1201;
+
+    min-width: 0;
+    flex: 1;
+  }
+
+  .brand-logo {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .brand strong {
+    font-size: 18px;
+    line-height: 1.05;
+  }
+
+  .brand small {
+    font-size: 8px;
+  }
+
+  /* ---------------------------------------------------
+     BOTÃO HAMBÚRGUER
+  --------------------------------------------------- */
+
+  .menu-button {
+    display: block;
+
+    position: relative;
+    z-index: 1202;
+
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    border: 0;
+    background: transparent;
+
+    cursor: pointer;
+  }
+
+  .menu-button span {
+    display: block;
+
+    width: 24px;
+    height: 2px;
+
+    margin: 5px auto;
+
+    background: #fff;
+
+    transform-origin: center;
+    transition:
+      transform .25s ease,
+      opacity .2s ease;
+  }
+
+  /* ---------------------------------------------------
+     MENU MOBILE
+     FIXED = sempre preso à viewport, não à .nav
+  --------------------------------------------------- */
+
+  .menu {
+    position: fixed;
+
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: calc(100dvh - 72px);
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 26px;
+
+    padding:
+      32px
+      max(24px, env(safe-area-inset-right))
+      calc(32px + env(safe-area-inset-bottom))
+      max(24px, env(safe-area-inset-left));
+
+    background:
+      radial-gradient(
+        circle at 50% 15%,
+        rgba(194,164,111,.10),
+        transparent 30%
+      ),
+      #21170f;
+
+    color: #fff;
+    font-size: 18px;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+      transform .35s ease,
+      opacity .25s ease,
+      visibility 0s linear .35s;
+
+    z-index: 1100;
+  }
+
+  .menu a {
+    width: min(360px, 100%);
+
+    padding: 11px 18px;
+
+    text-align: center;
+
+    color: rgba(255,255,255,.86);
+
+    border-radius: 999px;
+  }
+
+  .menu a:hover {
+    color: #fff;
+    background: rgba(255,255,255,.06);
+  }
+
+  .menu .menu-cta {
+    margin-top: 6px;
+
+    border: 1px solid rgba(255,255,255,.22);
+    background: rgba(255,255,255,.05);
+  }
+
+  /* MENU ABERTO */
+
+  body.menu-open {
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  body.menu-open .menu {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+      transform .35s ease,
+      opacity .25s ease,
+      visibility 0s;
+  }
+
+  /* ÍCONE X */
+
+  body.menu-open .menu-button span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  body.menu-open .menu-button span:nth-child(2) {
+    opacity: 0;
+  }
+
+  body.menu-open .menu-button span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ---------------------------------------------------
+     LAYOUT GERAL TABLET / MOBILE
+  --------------------------------------------------- */
+
+  .hero-grid,
+  .split,
+  .donation-grid,
+  .progress-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .hero-grid {
+    gap: 50px;
+  }
+
+  .hero-card {
+    width: min(620px, 100%);
+    margin-inline: auto;
+  }
+
+  .mini-card {
+    left: 20px;
+  }
+
+  .progress-card {
+    gap: 22px;
+  }
+
+  .split {
+    gap: 55px;
+  }
+
+  .split.reverse > :first-child,
+  .split.reverse > :last-child {
+    order: initial;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .step-card {
+    min-height: 230px;
+  }
+
+  .donation-grid {
+    gap: 50px;
+  }
+
+  .ornament-hero-left,
+  .campaign .ornament-section-left,
+  .donation .ornament-donation-left {
+    width: 86vw;
+    left: -120px;
+  }
+
+  .ornament-hero-right,
+  .scapular .ornament-section-right,
+  .donation .ornament-donation-right {
+    width: 220px;
+  }
+
+  .history-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .history-card {
+    min-height: 300px;
+  }
 }
+
+
+/* =====================================================
+   CELULARES
+===================================================== */
 
 @media (max-width: 640px) {
-  .container { width: min(100% - 28px, var(--container)); }
-  .nav { height: 72px; }
-  .brand small { display: none; }
-  .hero { padding: 120px 0 72px; }
-  .hero h1 { font-size: 54px; }
-  .hero-text { font-size: 15px; }
-  .hero-actions { flex-direction: column; }
-  .btn { width: 100%; }
-  .hero-photo { padding: 8px; border-radius: 26px; }
-  .photo-placeholder { min-height: 390px; border-radius: 20px; }
-  .mini-card { position: relative; left: auto; bottom: auto; width: calc(100% - 30px); margin: -30px auto 0; }
-  .progress-section { margin-top: -30px; }
-  .progress-card { padding: 24px 20px; }
-  .progress-values { gap: 15px; }
-  .progress-values strong { font-size: 15px; }
-  .section { padding: 82px 0; }
-  .content h2, .section-heading h2, .donation-copy h2, .final-cta h2 { font-size: 46px; }
-  .visual-card .photo-placeholder.tall, .photo-placeholder.product { min-height: 460px; }
-  .seal { width: 105px; height: 105px; right: -6px; font-size: 14px; }
-  .donation-form { padding: 25px 19px; }
-  .footer-content { align-items: flex-start; flex-direction: column; }
-  .footer-right { text-align: left; }
-  .social-links { justify-content: flex-start; }
-  .ornament-hero-right, .scapular .ornament-section-right, .donation .ornament-donation-right { width: 180px; opacity: .08; }
+
+  .container {
+    width: min(calc(100% - 28px), var(--container));
+  }
+
+  /* A .nav continua sendo apenas a barra de 72px.
+     NÃO coloque top ou altura de viewport nela. */
+  .nav {
+    height: 72px;
+  }
+
+  .brand {
+    gap: 9px;
+  }
+
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand strong {
+    max-width: 210px;
+
+    font-size: 16px;
+
+    white-space: normal;
+  }
+
+  .brand small {
+    display: none;
+  }
+
+  .menu {
+    top: 72px;
+    height: calc(100dvh - 72px);
+
+    gap: 20px;
+
+    font-size: 17px;
+  }
+
+  /* HERO */
+
+  .hero {
+    padding: 112px 0 72px;
+  }
+
+  .hero h1 {
+    font-size: clamp(46px, 14vw, 54px);
+  }
+
+  .hero-text {
+    font-size: 15px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .hero-photo {
+    padding: 8px;
+
+    border-radius: 26px;
+  }
+
+  .photo-placeholder {
+    min-height: 390px;
+
+    border-radius: 20px;
+  }
+
+  .mini-card {
+    position: relative;
+
+    left: auto;
+    bottom: auto;
+
+    width: calc(100% - 30px);
+
+    margin: -30px auto 0;
+  }
+
+  /* PROGRESSO */
+
+  .progress-section {
+    margin-top: -30px;
+  }
+
+  .progress-card {
+    padding: 24px 20px;
+  }
+
+  .progress-values {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .progress-values strong {
+    font-size: 15px;
+  }
+
+  .campaign-progress {
+    margin-top: -35px;
+    padding-bottom: 65px;
+  }
+
+  .campaign-progress-card {
+    padding: 25px 18px;
+
+    border-radius: 24px;
+  }
+
+  .campaign-progress-header {
+    gap: 26px;
+  }
+
+  .campaign-progress-header h2 {
+    font-size: 41px;
+  }
+
+  .main-percentage {
+    width: 145px;
+    height: 145px;
+  }
+
+  .main-percentage strong {
+    font-size: 36px;
+  }
+
+  .campaign-stats {
+    margin-top: 25px;
+  }
+
+  .supporters-box {
+    padding: 22px 18px;
+    gap: 24px;
+  }
+
+  .campaign-message {
+    align-items: flex-start;
+  }
+
+  /* SEÇÕES */
+
+  .section {
+    padding: 82px 0;
+  }
+
+  .content h2,
+  .section-heading h2,
+  .donation-copy h2,
+  .final-cta h2 {
+    font-size: 46px;
+  }
+
+  .visual-card .photo-placeholder.tall,
+  .photo-placeholder.product {
+    min-height: 460px;
+  }
+
+  .seal {
+    width: 105px;
+    height: 105px;
+
+    right: -6px;
+
+    font-size: 14px;
+  }
+
+  .donation-form {
+    padding: 25px 19px;
+  }
+
+  /* FOOTER */
+
+  .footer-content {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .footer-right {
+    text-align: left;
+  }
+
+  .social-links {
+    justify-content: flex-start;
+  }
+
+  /* ORNAMENTOS */
+
+  .ornament-hero-right,
+  .scapular .ornament-section-right,
+  .donation .ornament-donation-right {
+    width: 180px;
+    opacity: .08;
+  }
 }
 
 
-@media (max-width: 800px) {
+/* =====================================================
+   CELULARES MENORES
+===================================================== */
 
-    .history-grid {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 420px) {
 
-    .history-card {
-        min-height: 300px;
-    }
+  .brand strong {
+    max-width: 180px;
+    font-size: 15px;
+  }
 
+  .hero h1 {
+    font-size: 44px;
+  }
+
+  .campaign-progress-header h2,
+  .content h2,
+  .section-heading h2,
+  .donation-copy h2,
+  .final-cta h2 {
+    font-size: 40px;
+  }
+
+  .main-percentage {
+    width: 132px;
+    height: 132px;
+  }
+
+  .main-percentage strong {
+    font-size: 33px;
+  }
+
+  .stat-card {
+    min-height: 185px;
+    padding: 22px;
+  }
+
+  .stat-card strong {
+    font-size: 26px;
+  }
 }
+
+
+/* =====================================================
+   ACESSIBILIDADE / MOVIMENTO REDUZIDO
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
