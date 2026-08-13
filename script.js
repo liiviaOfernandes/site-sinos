@@ -1,31 +1,182 @@
 const CONFIG = {
-  whatsapp: "553438422540",
 
-  // Meta total da campanha
-  goal: 347966.54,
+    whatsapp: "553438422540",
 
-  // Quanto já foi arrecadado
-  raised: 222500.00
+    // META FINANCEIRA
+    goal: 347966.54,
+
+    // DOAÇÕES QUE NÃO VIERAM DOS ESCAPULÁRIOS
+    spontaneousDonations: 83500,
+
+    // CAMPANHA DOS ESCAPULÁRIOS
+    scapularValue: 1500,
+    scapularCount: 102,
+
+    // META DE APOIADORES
+    supportersGoal: 183
 };
-
 document.getElementById("year").textContent = new Date().getFullYear();
 
-const goalValue = document.getElementById("goalValue");
-const raisedValue = document.getElementById("raisedValue");
-const progressBar = document.getElementById("progressBar");
-const progressText = document.getElementById("progressText");
 
-const money = new Intl.NumberFormat("pt-BR", {
-  style: "currency",
-  currency: "BRL"
-});
 
-goalValue.textContent = money.format(CONFIG.goal);
-raisedValue.textContent = money.format(CONFIG.raised);
+const money = new Intl.NumberFormat(
+    "pt-BR",
+    {
+        style: "currency",
+        currency: "BRL"
+    }
+);
 
-const percent = CONFIG.goal > 0 ? Math.min((CONFIG.raised / CONFIG.goal) * 100, 100) : 0;
-setTimeout(() => { progressBar.style.width = `${percent}%`; }, 400);
-progressText.textContent = `${percent.toFixed(0)}% da meta alcançada`;
+
+// ==========================================
+// CÁLCULOS
+// ==========================================
+
+const scapularRaised =
+    CONFIG.scapularCount *
+    CONFIG.scapularValue;
+
+
+const totalRaised =
+    CONFIG.spontaneousDonations +
+    scapularRaised;
+
+
+const remaining =
+    Math.max(
+        CONFIG.goal - totalRaised,
+        0
+    );
+
+
+const spontaneousPercent =
+    (
+        CONFIG.spontaneousDonations /
+        CONFIG.goal
+    ) * 100;
+
+
+const scapularPercent =
+    (
+        scapularRaised /
+        CONFIG.goal
+    ) * 100;
+
+
+const totalPercent =
+    (
+        totalRaised /
+        CONFIG.goal
+    ) * 100;
+
+
+const remainingPercent =
+    (
+        remaining /
+        CONFIG.goal
+    ) * 100;
+
+
+const supportersRemaining =
+    Math.max(
+        CONFIG.supportersGoal -
+        CONFIG.scapularCount,
+        0
+    );
+
+
+const supportersPercent =
+    (
+        CONFIG.scapularCount /
+        CONFIG.supportersGoal
+    ) * 100;
+
+
+// ==========================================
+// MOSTRA NA TELA
+// ==========================================
+
+document.getElementById("goalValue")
+    .textContent =
+    money.format(CONFIG.goal);
+
+
+document.getElementById("totalRaised")
+    .textContent =
+    money.format(totalRaised);
+
+
+document.getElementById("spontaneousValue")
+    .textContent =
+    money.format(
+        CONFIG.spontaneousDonations
+    );
+
+
+document.getElementById("remainingValue")
+    .textContent =
+    money.format(remaining);
+
+
+document.getElementById("scapularCount")
+    .textContent =
+    CONFIG.scapularCount;
+
+
+document.getElementById("supportersCurrent")
+    .textContent =
+    CONFIG.scapularCount;
+
+
+document.getElementById("supportersGoal")
+    .textContent =
+    CONFIG.supportersGoal;
+
+
+document.getElementById("supportersRemaining")
+    .textContent =
+    `${supportersRemaining} apoiadores`;
+
+
+document.getElementById("spontaneousPercent")
+    .textContent =
+    `${spontaneousPercent.toFixed(2)}%`;
+
+
+document.getElementById("scapularPercent")
+    .textContent =
+    `${scapularPercent.toFixed(2)}%`;
+
+
+document.getElementById("totalPercent")
+    .textContent =
+    `${totalPercent.toFixed(2)}%`;
+
+
+document.getElementById("remainingPercent")
+    .textContent =
+    `${remainingPercent.toFixed(2)}%`;
+
+
+// BARRAS
+
+setTimeout(() => {
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        `${Math.min(totalPercent, 100)}%`;
+
+
+    document.getElementById(
+        "supportersBar"
+    ).style.width =
+        `${Math.min(
+            supportersPercent,
+            100
+        )}%`;
+
+}, 400);
 
 const menuButton = document.querySelector(".menu-button");
 const menuLinks = document.querySelectorAll(".menu a");
