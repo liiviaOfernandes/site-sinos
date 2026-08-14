@@ -10,7 +10,7 @@ const CONFIG = {
 
     // CAMPANHA DOS ESCAPULÁRIOS
     scapularValue: 1500,
-    scapularCount: 102,
+    scapularCount: 128,
 
     // META DE APOIADORES
     supportersGoal: 183
